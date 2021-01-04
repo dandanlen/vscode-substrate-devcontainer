@@ -1,0 +1,36 @@
+{
+	"name": "Substrate development environment",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"lldb.executable": "/usr/bin/lldb",
+		// VS Code don't watch files under ./target
+		"files.watcherExclude": {
+			"**/target/**": true
+		}
+	},
+	"workspaceFolder": "/workspace",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+	"mounts": [
+		// Use a volume for build artifacts for better performance.
+		"target=${containerWorkspaceFolder}/target,type=volume",
+		// Mount the linked .devcontainer in readonly mode.
+		"source=${localWorkspaceFolder}/.devcontainer,target=${containerWorkspaceFolder}/.devcontainer,type=bind,readonly"
+	],
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"bungcip.better-toml",
+		"vadimcn.vscode-lldb",
+		"matklad.rust-analyzer",
+		"mutantdino.resourcemonitor",
+		"paritytech.vscode-substrate"
+	],
+	"forwardPorts": [
+		3000,
+		9944
+	],
+	"postCreateCommand": "printf \"[target.x86_64-unknown-linux-gnu]\\nlinker = \\\"lld\\\"\\n\" > ${localWorkspaceFolder}/../.cargo.toml"
+}
