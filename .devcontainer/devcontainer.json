@@ -13,9 +13,10 @@
 		}
 	},
 	"workspaceFolder": "/workspace",
+	// Use delegated consistency type for better disk performance.
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
 	"mounts": [
-		// Use a volume for build artifacts for better performance.
+		// Use a docker volume for build artifacts.
 		"target=${containerWorkspaceFolder}/target,type=volume",
 		// Mount the linked .devcontainer in readonly mode.
 		"source=${localWorkspaceFolder}/.devcontainer,target=${containerWorkspaceFolder}/.devcontainer,type=bind,readonly"
