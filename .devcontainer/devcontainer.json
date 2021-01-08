@@ -33,5 +33,6 @@
 		3000,
 		9944
 	],
+	// Use lld as the default linker for rust.
 	"postCreateCommand": "printf \"[target.x86_64-unknown-linux-gnu]\\nlinker = \\\"lld\\\"\\n\" > ${localWorkspaceFolder}/../.cargo.toml"
 }

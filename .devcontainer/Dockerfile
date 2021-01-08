@@ -30,4 +30,4 @@ RUN apt-get install -y nodejs
 RUN npm install -g yarn
 
 # Remove unnecessary packages.
-RUN apt autoremove
+RUN apt -y autoremove
