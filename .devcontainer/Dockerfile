@@ -15,7 +15,7 @@ RUN rustup install $RUST_VERSION \
 #     && cargo install substrate-deps \
 #     && cargo install diener
 
-# Substrate and rust comiler dependencies.
+# Substrate and rust compiler dependencies.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
         cmake \
@@ -24,10 +24,13 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         libclang-dev \
         lld
 
+# Install sccache for cached builds
+RUN cargo install sccache
+ENV RUSTC_WRAPPER=sccache
+
 # Node, npm and yarn for front-end stuff.
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install -g yarn
 
 # Remove unnecessary packages.
 RUN apt -y autoremove

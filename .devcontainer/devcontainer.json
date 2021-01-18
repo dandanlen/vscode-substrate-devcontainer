@@ -19,20 +19,26 @@
 		// Use a docker volume for build artifacts.
 		"target=${containerWorkspaceFolder}/target,type=volume",
 		// Mount the linked .devcontainer in readonly mode.
-		"source=${localWorkspaceFolder}/.devcontainer,target=${containerWorkspaceFolder}/.devcontainer,type=bind,readonly"
+		"source=${localWorkspaceFolder}/.devcontainer,target=${containerWorkspaceFolder}/.devcontainer,type=bind,readonly",
+		// Mount a shared local volume as build cache for sccache
+		"source=rust-sccache,target=/.cache/sccache,type=volume"
 	],
+	"containerEnv": {
+		"SCCACHE_DIR": "/.cache/sccache"
+	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"bungcip.better-toml",
 		"vadimcn.vscode-lldb",
 		"matklad.rust-analyzer",
 		"mutantdino.resourcemonitor",
-		"paritytech.vscode-substrate"
+		"paritytech.vscode-substrate",
+		"serayuzgur.crates"
 	],
 	"forwardPorts": [
 		3000,
 		9944
 	],
 	// Use lld as the default linker for rust.
-	"postCreateCommand": "printf \"[target.x86_64-unknown-linux-gnu]\\nlinker = \\\"lld\\\"\\n\" > ${localWorkspaceFolder}/../.cargo.toml"
+	"postCreateCommand": "printf \"[target.x86_64-unknown-linux-gnu]\\nlinker = \\\"lld\\\"\\n\" > ${containerWorkspaceFolder}/../.cargo.toml"
 }
