@@ -10,11 +10,6 @@ RUN rustup install $RUST_VERSION \
     && rustup component add rls rust-analysis rust-src clippy rustfmt llvm-tools-preview \
     && rustup target add wasm32-unknown-unknown --toolchain $RUST_VERSION
 
-# Install some subtrate tools.
-# RUN cargo install --force --git https://github.com/alexcrichton/wasm-gc \
-#     && cargo install substrate-deps \
-#     && cargo install diener
-
 # Substrate and rust compiler dependencies.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
@@ -25,7 +20,14 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         lld
 
 # Install sccache for cached builds
-RUN cargo install sccache
+ARG SCCACHE_VER="0.2.15"
+
+RUN curl -fsSLo /tmp/sccache.tgz \
+    https://github.com/mozilla/sccache/releases/download/v${SCCACHE_VER}/sccache-v0.2.15-x86_64-unknown-linux-musl.tar.gz \
+    && tar -xzf /tmp/sccache.tgz -C /tmp --strip-components=1 \
+    && mv /tmp/sccache /usr/bin && chmod +x /usr/bin/sccache \
+    && rm -rf /tmp/*
+
 ENV RUSTC_WRAPPER=sccache
 
 # Node, npm and yarn for front-end stuff.
