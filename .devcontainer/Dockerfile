@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/rust:0-1
 
 # Substrate-compatible Rust version.
-ARG RUST_VERSION=nightly-2020-10-05
+ARG RUST_VERSION=nightly
 RUN rustup install $RUST_VERSION \
     && rustup update \
     && rustup default $RUST_VERSION \
