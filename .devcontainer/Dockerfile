@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/rust:0-1
 # Pin rust to a specific version of nightly that contains all the required components (some releases don't include 
 # rust fmt or rls). In order to check for more recent complete nightly releases run `rustup install --profile complete nightly`.
 ARG RUST_VERSION=nightly-2021-01-31
-RUN rustup install --profile complete $RUST_VERSION \
+RUN rustup install $RUST_VERSION \
     && rustup update \
     && rustup default $RUST_VERSION \
     && rustup component add rls rust-analysis rust-src clippy rustfmt llvm-tools-preview \
